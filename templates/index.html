@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jupyter2PDF</title>
+
+    <!-- External Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
+
+    <style>
+        /* Base Styling */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f3f4f6;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Toolbar Styling */
+        .toolbar {
+            background: #ffffff;
+            padding: 15px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            align-items: center;
+            width: 100%;
+            max-width: 900px;
+            box-sizing: border-box;
+        }
+
+        button,
+        input[type="file"]::file-selector-button {
+            background: #4f46e5;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        button:hover,
+        input[type="file"]::file-selector-button:hover {
+            background: #4338ca;
+        }
+
+        /* Notebook Render Area */
+        #notebook-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .notebook-page {
+            position: relative;
+            width: 8.5in;
+            /* Standard Letter width */
+            min-height: 11in;
+            /* Standard Letter height */
+            background: white;
+            padding: 0.5in;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        /* Draggable Text Box Styling */
+        .draggable-text {
+            position: absolute;
+            background: rgba(253, 224, 71, 0.9);
+            padding: 10px;
+            border: 2px dashed #eab308;
+            border-radius: 4px;
+            min-width: 120px;
+            min-height: 24px;
+            cursor: move;
+            word-wrap: break-word;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            color: #1f2937;
+        }
+
+        .draggable-text:focus {
+            outline: none;
+            border-style: solid;
+            background: #fef08a;
+            cursor: text;
+        }
+
+        /* Toolbar Inputs Styling */
+        .toolbar-inputs {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .toolbar-inputs input {
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            font-size: 14px;
+            width: 140px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="toolbar">
+        <input type="file" id="file-input" accept=".ipynb">
+        <button id="upload-btn">Upload</button>
+        <div class="toolbar-inputs" style="margin-left: auto; justify-content: flex-end;">
+            <input type="text" id="input-name" placeholder="Name">
+            <input type="text" id="input-roll" placeholder="Roll Number">
+            <input type="text" id="input-section" placeholder="Section">
+            <input type="text" id="input-lab" placeholder="Lab Name">
+        </div>
+
+        <button id="add-text-btn">Add Note</button>
+        <button id="download-btn" style="background:#10b981;">Export PDF</button>
+    </div>
+
+    <!-- The container that will be targeted for PDF export -->
+    <div id="notebook-container">
+        <div id="notebook-content">
+            <p style="text-align: center; color: #9ca3af; padding-top: 100px;">
+                Upload a Jupyter Notebook to view and annotate it here.
+            </p>
+        </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+
+</html>
